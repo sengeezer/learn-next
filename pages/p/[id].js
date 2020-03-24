@@ -1,13 +1,13 @@
-import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
+import fetch from 'isomorphic-unfetch';
 
-export default () => {
-    const router = useRouter();
+const Post = ({ show }) => {
 
     return (
         <Layout>
-            <h1>{router.query.id}</h1>
             <p>Blawg post content.</p>
         </Layout>
     );
 };
+
+export default Post;
