@@ -7,6 +7,20 @@ const PostLink = props => (
         <Link href="/p/[id]" as={`/p/${props.id}`}>
             <a>{props.id}</a>
         </Link>
+        <style jsx>
+            {`
+                li {
+                  list-style: none;
+                  margin: 5px 0;
+                }
+                a {
+                  text-decoration: none;
+                  color: blue;
+                  font-family: 'Arial', sans-serif;
+                }
+                a:hover { opacity: 0.6; }
+            `}
+        </style>
     </li>
 );
 
@@ -31,6 +45,21 @@ const Index = ({ shows }) => (
                 </li>
             ))}
         </ul>
+        <style jsx>
+            {`
+                h1, a { font-family: 'Arial', sans-serif; }
+                ul { padding: 0; }
+                li {
+                  list-style: none;
+                  margin: 5px 0;
+                }
+                a {
+                  text-decoration: none;
+                  color: blue;
+                }
+                a:hover { opacity: 0.6; }
+            `}
+        </style>
     </Layout>
 );
 
