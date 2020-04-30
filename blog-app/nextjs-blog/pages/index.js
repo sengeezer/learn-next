@@ -2,7 +2,9 @@ import Head from 'next/head';
 import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 
-const Home = () => (
+import getSortedPostsData from '../lib/posts';
+
+const Home = ({ allPostsData }) => (
   <Layout home>
     <Head>
       <title>{siteTitle}</title>
@@ -14,7 +16,27 @@ const Home = () => (
           <a href="https://nextjs.org/learn">Next.js tutorial</a>.
         </p>
       </section>
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+      <h2 className={utilStyles.headingLg}>Blawg</h2>
+        <ul className={utilStyles.list}>
+          {
+            allPostsData.map(({ id, date, title }) => (
+              <li className={utilStyles.listItem} key={id}>
+                {title} ({id}) - {date}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
   </Layout>
 );
+
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+
+  return {
+    props: { allPostsData }
+  };
+};
 
 export default Home;
