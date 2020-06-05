@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 
 import matter from 'gray-matter';
+import remark from 'remark';
+import html from 'remark-html';
 
 const postsDir = path.join(process.cwd(), 'posts');
 
@@ -54,7 +56,22 @@ export function getAllPostIds() {
   ));
 };
 
-export function getPostData(id) {
+/*
+  Above could also originate from an API:
+
+  export async function getAllPostIds() {
+    const res = await fetch('..')
+    const posts = await res.json()
+    
+    return posts.map(post => {
+      return {
+        params: { id: post.id }
+      }
+    })
+  }
+*/
+
+export async function getPostData(id) {
   // read md into string
   const fullPath = path.join(postsDir, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
@@ -62,9 +79,16 @@ export function getPostData(id) {
   // parse metadata
   const matterResult = matter(fileContents);
 
+  // Use remark to convert markdown into an HTML string
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+  const contentHtml = processedContent.toString();
+
   // return data and id
   return {
     id,
+    contentHtml,
     ...matterResult.data
   };
 }
